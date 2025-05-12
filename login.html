@@ -21,6 +21,20 @@
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+    window.loginUser = async () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        alert("Logged in as " + userCredential.user.email);
+        window.location.href = "index.html"; // Redirect after login
+      } catch (error) {
+        alert("Login failed: " + error.message);
+      }
+    };
 </script>
     <style>
       body {
