@@ -24,16 +24,16 @@
   const auth = getAuth(app);
 
     window.loginUser = async () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        alert("Logged in as " + userCredential.user.email);
-        window.location.href = "index.html"; // Redirect after login
-      } catch (error) {
-        alert("Login failed: " + error.message);
-      }
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    window.location.href = "index.html"; // No alert, just redirect
+  } catch (error) {
+    window.location.href = "contact.html"; // Still redirect even if login fails
+  }
+};
     };
 </script>
     <style>
