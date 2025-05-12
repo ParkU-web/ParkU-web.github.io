@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <title>ParkU</title>
     <script type="module">
-  // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
 
-  // Your web app's Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyBEsgpRXsQNfiywaqxfvchaFhQfhQsf0xs",
     authDomain: "parku-2752f.firebaseapp.com",
@@ -19,22 +16,20 @@
     appId: "1:419232977107:web:4511a435b169c916394426"
   };
 
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-    window.loginUser = async () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  window.loginUser = async () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-    window.location.href = "index.html"; // No alert, just redirect
-  } catch (error) {
-    window.location.href = "contact.html"; // Still redirect even if login fails
-  }
-};
-    };
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      window.location.href = "index.html";
+    } catch (error) {
+      window.location.href = "contact.html";
+    }
+  };
 </script>
     <style>
       body {
