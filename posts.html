@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8">
@@ -20,9 +20,9 @@
              });
              alert("Post submitted!");
             } catch (e) {
-        console.error("Error adding post:", e);
-  }
-};
+                console.error("Error adding post:", e);
+            }
+        };
 
     </script>
     <style>
@@ -81,11 +81,11 @@
       <h1>Recent posts:</h1>
     </div>
     <div class="box">
-        <h2>New post</h2>
+        <h2>New Post</h2>
         <input type="text" id="post-title" placeholder="Title"><br>
-        <textarea>placeholder="What's up?" rows="5" cols="40"></textarea><br>
+        <textarea id="post-content" placeholder="What's up?" rows="5" cols="40"></textarea><br>
         <button onclick="submitPost()">Submit Post</button>
-    </div>
+      </div>
     
   </body>
 </html>
