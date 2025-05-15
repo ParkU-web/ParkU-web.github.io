@@ -4,11 +4,17 @@
   <meta charset="UTF-8">
   <title>ParkU</title>
   <script type="module">
-    // Import Firebase core and Firestore
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
-
-    // Your Firebase config
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      getDocs,
+      serverTimestamp,
+      query,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+  
     const firebaseConfig = {
       apiKey: "AIzaSyBEsgpRXsQNfiywaqxfvchaFhQfhQsf0xs",
       authDomain: "parku-2752f.firebaseapp.com",
@@ -17,16 +23,15 @@
       messagingSenderId: "419232977107",
       appId: "1:419232977107:web:4511a435b169c916394426"
     };
-
-    // Initialize Firebase
+  
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-
-    // Submit post function
+  
+    // Submitting new posts
     window.submitPost = async () => {
       const title = document.getElementById("post-title").value;
       const content = document.getElementById("post-content").value;
-
+  
       try {
         await addDoc(collection(db, "posts"), {
           title,
@@ -34,12 +39,36 @@
           timestamp: serverTimestamp()
         });
         alert("Post submitted!");
+        loadPosts(); // Reload posts after new one is added
       } catch (e) {
         console.error("Error adding post:", e);
       }
     };
+  
+    // Load posts and display
+    async function loadPosts() {
+      const postsContainer = document.getElementById("posts-container");
+      postsContainer.innerHTML = ""; // Clear before loading
+  
+      const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
+      const querySnapshot = await getDocs(q);
+  
+      querySnapshot.forEach((doc) => {
+        const post = doc.data();
+        const postDiv = document.createElement("div");
+        postDiv.className = "box";
+        postDiv.innerHTML = `
+          <h3>${post.title}</h3>
+          <p>${post.content}</p>
+          <small>${post.timestamp?.toDate().toLocaleString() || "Unknown time"}</small>
+        `;
+        postsContainer.appendChild(postDiv);
+      });
+    }
+  
+    // Run when page loads
+    window.addEventListener("DOMContentLoaded", loadPosts);
   </script>
-
   <style>
     body {
       margin: 0;
@@ -102,13 +131,14 @@
 
   <div style="padding: 2rem;">
     <h1>Recent posts:</h1>
+    <div id="posts-container"></div>
   </div>
 
   <div class="box">
     <h2>New Post</h2>
     <input type="text" id="post-title" placeholder="Title"><br><br>
     <textarea id="post-content" placeholder="What's up?" rows="5" cols="40"></textarea><br><br>
-    <button onclick="submitPost()">Submit Post</button>
+    <button onclick="submitPost()">Submit Post!</button>
   </div>
 
 </body>
