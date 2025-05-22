@@ -6,6 +6,11 @@
     <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBEsgpRXsQNfiywaqxfvchaFhQfhQsf0xs",
@@ -41,6 +46,33 @@
       window.location.href = "contact.html";
     }
   };
+
+  // Show user info if logged in
+onAuthStateChanged(auth, (user) => {
+  const rightHeader = document.querySelector(".header .right");
+  rightHeader.innerHTML = ""; // Clear existing links
+
+  if (user) {
+    const userInfo = document.createElement("span");
+    userInfo.textContent = user.email || "Logged in";
+    userInfo.style.marginRight = "1rem";
+
+    const logoutBtn = document.createElement("a");
+    logoutBtn.href = "#";
+    logoutBtn.textContent = "Logout";
+    logoutBtn.onclick = () => {
+      signOut(auth).then(() => location.reload());
+    };
+
+    rightHeader.appendChild(userInfo);
+    rightHeader.appendChild(logoutBtn);
+  } else {
+    const loginLink = document.createElement("a");
+    loginLink.href = "login.html";
+    loginLink.textContent = "Login";
+    rightHeader.appendChild(loginLink);
+  }
+});
 </script>
     <style>
       body {
