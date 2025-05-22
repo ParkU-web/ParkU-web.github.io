@@ -54,30 +54,54 @@ document.addEventListener("DOMContentLoaded", () => {
     const rightHeader = document.querySelector(".header .right");
     if (!rightHeader) return;
 
-    //rightHeader.innerHTML = ""; // Clear existing links
+    rightHeader.innerHTML = ""; // Clear existing stuff
 
     if (user) {
-      const userInfo = document.createElement("span");
-      userInfo.textContent = user.email || "Logged in";
-      userInfo.style.marginRight = "1rem";
+      const userMenu = document.createElement("div");
+      userMenu.className = "user-menu";
 
-      const logoutBtn = document.createElement("a");
-      logoutBtn.href = "#";
-      logoutBtn.textContent = "Logout";
-      logoutBtn.onclick = (e) => {
+      const toggle = document.createElement("span");
+      toggle.className = "user-toggle";
+      toggle.textContent = user.email || "Logged in";
+
+      const dropdown = document.createElement("div");
+      dropdown.className = "user-dropdown";
+
+      const logout = document.createElement("a");
+      logout.href = "#";
+      logout.textContent = "Logout";
+      logout.id = "logout-btn";
+
+      logout.onclick = (e) => {
         e.preventDefault();
         signOut(auth).then(() => location.reload());
       };
 
-      rightHeader.appendChild(userInfo);
-      rightHeader.appendChild(logoutBtn);
+      dropdown.appendChild(logout);
+      userMenu.appendChild(toggle);
+      userMenu.appendChild(dropdown);
+      rightHeader.appendChild(userMenu);
+
+      // Toggle dropdown on click
+      toggle.addEventListener("click", () => {
+        userMenu.classList.toggle("show");
+      });
+
+      // Hide dropdown when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!userMenu.contains(e.target)) {
+          userMenu.classList.remove("show");
+        }
+      });
     } else {
       const loginLink = document.createElement("a");
       loginLink.href = "login.html";
       loginLink.textContent = "Login";
-      //rightHeader.appendChild(loginLink);
+      rightHeader.appendChild(loginLink);
     }
   });
+});
+
 });
 </script>
     <style>
@@ -154,6 +178,49 @@ document.addEventListener("DOMContentLoaded", () => {
         top: 150px;
         left: 50px;
       }
+
+      .user-menu {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.user-toggle {
+  color: white;
+  padding: 0.25rem 0.5rem;
+  background-color: #444;
+  border-radius: 6px;
+}
+
+.user-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  padding: 0.5rem;
+  display: none;
+  z-index: 999;
+}
+
+.user-dropdown a {
+  display: block;
+  color: black;
+  text-decoration: none;
+  padding: 0.25rem 0;
+}
+
+.user-dropdown a:hover {
+  background-color: #f0f0f0;
+}
+
+.user-menu.show .user-dropdown {
+  display: block;
+}
+
     </style>
   </head>
   <body>
@@ -167,6 +234,13 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="right">
         <a href="#">About</a>
         <a href="contact.html">Contact</a>
+        <div class="user-menu">
+          <span class="user-toggle">user@example.com ⌄</span>
+          <div class="user-dropdown hidden">
+          <a href="#" id="logout-btn">Logout</a>
+        </div>
+      </div>
+
       </div>
     </div>
 
