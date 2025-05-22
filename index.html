@@ -3,6 +3,45 @@
   <head>
     <meta charset="UTF-8">
     <title>ParkU</title>
+    <script>
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+
+const auth = getAuth(app);
+  document.addEventListener("DOMContentLoaded", () => {
+  onAuthStateChanged(auth, (user) => {
+    const rightHeader = document.querySelector(".header .right");
+    if (!rightHeader) return;
+
+    //rightHeader.innerHTML = ""; // Clear existing links
+
+    if (user) {
+      const userInfo = document.createElement("span");
+      userInfo.textContent = user.email || "Logged in";
+      userInfo.style.marginRight = "1rem";
+
+      const logoutBtn = document.createElement("a");
+      logoutBtn.href = "#";
+      logoutBtn.textContent = "Logout";
+      logoutBtn.onclick = (e) => {
+        e.preventDefault();
+        signOut(auth).then(() => location.reload());
+      };
+
+      rightHeader.appendChild(userInfo);
+      rightHeader.appendChild(logoutBtn);
+    } else {
+      const loginLink = document.createElement("a");
+      loginLink.href = "login.html";
+      loginLink.textContent = "Login";
+      rightHeader.appendChild(loginLink);
+    }
+  });
+});
+    </script>
     <style>
       body {
         margin: 0;
