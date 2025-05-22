@@ -5,11 +5,13 @@
     <title>ParkU</title>
     <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
   import {
-    getAuth,
-    onAuthStateChanged,
-    signOut
+  getAuth,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged,
+  signOut
 } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
 
   const firebaseConfig = {
@@ -47,31 +49,35 @@
     }
   };
 
-  // Show user info if logged in
-onAuthStateChanged(auth, (user) => {
-  const rightHeader = document.querySelector(".header .right");
-  rightHeader.innerHTML = ""; // Clear existing links
+document.addEventListener("DOMContentLoaded", () => {
+  onAuthStateChanged(auth, (user) => {
+    const rightHeader = document.querySelector(".header .right");
+    if (!rightHeader) return;
 
-  if (user) {
-    const userInfo = document.createElement("span");
-    userInfo.textContent = user.email || "Logged in";
-    userInfo.style.marginRight = "1rem";
+    rightHeader.innerHTML = ""; // Clear existing links
 
-    const logoutBtn = document.createElement("a");
-    logoutBtn.href = "#";
-    logoutBtn.textContent = "Logout";
-    logoutBtn.onclick = () => {
-      signOut(auth).then(() => location.reload());
-    };
+    if (user) {
+      const userInfo = document.createElement("span");
+      userInfo.textContent = user.email || "Logged in";
+      userInfo.style.marginRight = "1rem";
 
-    rightHeader.appendChild(userInfo);
-    rightHeader.appendChild(logoutBtn);
-  } else {
-    const loginLink = document.createElement("a");
-    loginLink.href = "login.html";
-    loginLink.textContent = "Login";
-    rightHeader.appendChild(loginLink);
-  }
+      const logoutBtn = document.createElement("a");
+      logoutBtn.href = "#";
+      logoutBtn.textContent = "Logout";
+      logoutBtn.onclick = (e) => {
+        e.preventDefault();
+        signOut(auth).then(() => location.reload());
+      };
+
+      rightHeader.appendChild(userInfo);
+      rightHeader.appendChild(logoutBtn);
+    } else {
+      const loginLink = document.createElement("a");
+      loginLink.href = "login.html";
+      loginLink.textContent = "Login";
+      rightHeader.appendChild(loginLink);
+    }
+  });
 });
 </script>
     <style>
@@ -142,7 +148,7 @@ onAuthStateChanged(auth, (user) => {
         padding: 1.5rem;
         margin: 1rem;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: 1000;
+        width: 1000px;
         height: auto;
         position: absolute;
         top: 150px;
