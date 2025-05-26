@@ -85,15 +85,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     } else {
-      const aboutLink = document.createElement("about");
+      const aboutLink = document.createElement("a");
       aboutLink.href = "about.html";
       aboutLink.textContent = "About";
       rightHeader.appendChild(aboutLink);
-      const contactLink = document.createElement("contact");
+      const contactLink = document.createElement("a");
       contactLink.href = "contact.html";
       contactLink.textContent = "Contact";
       rightHeader.appendChild(contactLink);
-      const loginLink = document.createElement("login");
+      const loginLink = document.createElement("a");
       loginLink.href = "login.html";
       loginLink.textContent = "Login";
       rightHeader.appendChild(loginLink);
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       .logo {
         height: 20px;
-        width: 10px;
+        width: 15px;
         margin-left: 0rem;
         vertical-align: middle;
       }
