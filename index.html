@@ -94,6 +94,48 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebas
       .header a:hover {
         text-decoration: underline;
       }
+
+      .user-menu {
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .user-toggle {
+        color: white;
+        padding: 0.25rem 0.5rem;
+        background-color: #444;
+        border-radius: 6px;
+      }
+
+      .user-dropdown {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        background-color: white;
+        color: black;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        padding: 0.5rem;
+        display: none;
+        z-index: 999;
+      }
+
+      .user-dropdown a {
+        display: block;
+        color: black;
+        text-decoration: none;
+        padding: 0.25rem 0;
+      }
+
+      .user-dropdown a:hover {
+        background-color: #f0f0f0;
+      }
+
+      .user-menu.show .user-dropdown {
+        display: block;
+      }
     </style>
   </head>
   <body>
