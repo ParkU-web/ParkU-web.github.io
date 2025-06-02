@@ -71,6 +71,14 @@ document.addEventListener("DOMContentLoaded", () => {
       dropdown.appendChild(logout);
       userMenu.appendChild(toggle);
       userMenu.appendChild(dropdown);
+      const aboutLink = document.createElement("a");
+      aboutLink.href = "about.html";
+      aboutLink.textContent = "About";
+      rightHeader.appendChild(aboutLink);
+      const contactLink = document.createElement("a");
+      contactLink.href = "contact.html";
+      contactLink.textContent = "Contact";
+      rightHeader.appendChild(contactLink);
       rightHeader.appendChild(userMenu);
 
       // Toggle dropdown on click
