@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>ParkU</title>
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+  import {
+  getAuth,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBEsgpRXsQNfiywaqxfvchaFhQfhQsf0xs",
+    authDomain: "parku-2752f.firebaseapp.com",
+    projectId: "parku-2752f",
+    storageBucket: "parku-2752f.firebasestorage.app",
+    messagingSenderId: "419232977107",
+    appId: "1:419232977107:web:4511a435b169c916394426"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  window.loginUser = async () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      window.location.href = "index.html";
+    } catch (error) {
+      window.location.href = "contact.html";
+    }
+  };
+
+document.addEventListener("DOMContentLoaded", () => {
+  onAuthStateChanged(auth, (user) => {
+    const rightHeader = document.querySelector(".header .right");
+    if (!rightHeader) return;
+
+    rightHeader.innerHTML = ""; // Clear existing stuff
+
+    if (user) {
+      const userMenu = document.createElement("div");
+      userMenu.className = "user-menu";
+
+      const toggle = document.createElement("span");
+      toggle.className = "user-toggle";
+      toggle.textContent = user.email || "Logged in";
+
+      const dropdown = document.createElement("div");
+      dropdown.className = "user-dropdown";
+
+      const logout = document.createElement("a");
+      logout.href = "#";
+      logout.textContent = "Logout";
+      logout.id = "logout-btn";
+
+      logout.onclick = (e) => {
+        e.preventDefault();
+        signOut(auth).then(() => location.reload());
+      };
+
+      dropdown.appendChild(logout);
+      userMenu.appendChild(toggle);
+      userMenu.appendChild(dropdown);
+      const aboutLink = document.createElement("a");
+      aboutLink.href = "about.html";
+      aboutLink.textContent = "About";
+      rightHeader.appendChild(aboutLink);
+      const contactLink = document.createElement("a");
+      contactLink.href = "contact.html";
+      contactLink.textContent = "Contact";
+      rightHeader.appendChild(contactLink);
+      rightHeader.appendChild(userMenu);
+
+      // Toggle dropdown on click
+      toggle.addEventListener("click", () => {
+        userMenu.classList.toggle("show");
+      });
+
+      // Hide dropdown when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!userMenu.contains(e.target)) {
+          userMenu.classList.remove("show");
+        }
+      });
+    } else {
+      const aboutLink = document.createElement("a");
+      aboutLink.href = "about.html";
+      aboutLink.textContent = "About";
+      rightHeader.appendChild(aboutLink);
+      const contactLink = document.createElement("a");
+      contactLink.href = "contact.html";
+      contactLink.textContent = "Contact";
+      rightHeader.appendChild(contactLink);
+      const loginLink = document.createElement("a");
+      loginLink.href = "login.html";
+      loginLink.textContent = "Login";
+      rightHeader.appendChild(loginLink);
+    }
+  });
+});
+    </script>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+      }
+
+      .logo {
+        height: 20px;
+        width: 15px;
+        margin-left: 0rem;
+        vertical-align: middle;
+      }
+
+      .error {
+        height: 800px;
+        width: 800px;
+        margin-left: 10rem;
+        vertical-align: middle;
+      }
+
+      .header {
+        background-color: #333;
+        color: white;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .header .left,
+      .header .right {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .header a {
+        color: white;
+        text-decoration: none;
+      }
+
+      .header a:hover {
+        text-decoration: underline;
+      }
+
+      .user-menu {
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .user-toggle {
+        color: white;
+        padding: 0.25rem 0.5rem;
+        background-color: #444;
+        border-radius: 6px;
+      }
+
+      .user-dropdown {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        background-color: white;
+        color: black;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        padding: 0.5rem;
+        display: none;
+        z-index: 999;
+      }
+
+      .user-dropdown a {
+        display: block;
+        color: black;
+        text-decoration: none;
+        padding: 0.25rem 0;
+      }
+
+      .user-dropdown a:hover {
+        background-color: #f0f0f0;
+      }
+
+      .user-menu.show .user-dropdown {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="header">
+      <div class="left">
+        <strong>ParkU</strong>
+        <img src="clean-logo.png" alt="Logo" class="logo">
+      </div>
+      <div class="right">
+        <div class="user-menu">
+          <span class="user-toggle">user@example.com</span>
+          <div class="user-dropdown hidden">
+          <a href="#" id="logout-btn">Logout</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding: 2rem;">
+      <h1>You've encountered a login error</h1>
+      <p>This sometimes happens with our yanky login system. Just try again in a few minutes. 
+        If you keep seeing this site and are not getting logged in, consider contacting our dedicated support team.</p>
+      <img src="Error.jpg" alt="Error" class="error">
+    </div>
+    
+  </body>
+</html>
