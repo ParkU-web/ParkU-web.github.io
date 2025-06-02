@@ -32,11 +32,13 @@
     window.submitPost = async () => {
       const title = document.getElementById("post-title").value;
       const content = document.getElementById("post-content").value;
+      const address = document.getElementById("post-address").value;
   
       try {
         await addDoc(collection(db, "posts"), {
           title,
           content,
+          address,
           timestamp: serverTimestamp()
         });
         alert("Post submitted!");
@@ -58,9 +60,12 @@
         const post = doc.data();
         const postDiv = document.createElement("div");
         postDiv.className = "box";
+
+        const mapURL = `https://www.google.com/maps/embed/v1/place?key=Your-api-key&q=${encodeURIComponent(post.address)}`;
         postDiv.innerHTML = `
           <h3>${post.title}</h3>
           <p>${post.content}</p>
+          <small><strong>Address:</strong>${post.address}</small>
           <small>${post.timestamp?.toDate().toLocaleString() || "Unknown time"}</small>
         `;
         postsContainer.appendChild(postDiv);
@@ -207,7 +212,8 @@
   <div class="box">
     <h2>New Post</h2>
     <input type="text" id="post-title" placeholder="Title"><br><br>
-    <textarea id="post-content" placeholder="What's up?" rows="5" cols="40"></textarea><br><br>
+    <textarea id="post-content" placeholder="What's up?" rows="5" cols="40"></textarea><br>
+    <input type="text" id="post-address" placeholder="Address"><br>
     <button onclick="submitPost()">Submit Post!</button>
   </div>
 
