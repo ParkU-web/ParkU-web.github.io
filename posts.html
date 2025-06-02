@@ -64,7 +64,67 @@
         `;
         postsContainer.appendChild(postDiv);
       });
+    };
+    document.addEventListener("DOMContentLoaded", () => {
+  onAuthStateChanged(auth, (user) => {
+    const rightHeader = document.querySelector(".header .right");
+    if (!rightHeader) return;
+
+    rightHeader.innerHTML = ""; // Clear existing stuff
+
+    if (user) {
+      const userMenu = document.createElement("div");
+      userMenu.className = "user-menu";
+
+      const toggle = document.createElement("span");
+      toggle.className = "user-toggle";
+      toggle.textContent = user.email || "Logged in";
+
+      const dropdown = document.createElement("div");
+      dropdown.className = "user-dropdown";
+
+      const logout = document.createElement("a");
+      logout.href = "#";
+      logout.textContent = "Logout";
+      logout.id = "logout-btn";
+
+      logout.onclick = (e) => {
+        e.preventDefault();
+        signOut(auth).then(() => location.reload());
+      };
+
+      dropdown.appendChild(logout);
+      userMenu.appendChild(toggle);
+      userMenu.appendChild(dropdown);
+      rightHeader.appendChild(userMenu);
+
+      // Toggle dropdown on click
+      toggle.addEventListener("click", () => {
+        userMenu.classList.toggle("show");
+      });
+
+      // Hide dropdown when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!userMenu.contains(e.target)) {
+          userMenu.classList.remove("show");
+        }
+      });
+    } else {
+      const aboutLink = document.createElement("a");
+      aboutLink.href = "about.html";
+      aboutLink.textContent = "About";
+      rightHeader.appendChild(aboutLink);
+      const contactLink = document.createElement("a");
+      contactLink.href = "contact.html";
+      contactLink.textContent = "Contact";
+      rightHeader.appendChild(contactLink);
+      const loginLink = document.createElement("a");
+      loginLink.href = "login.html";
+      loginLink.textContent = "Login";
+      rightHeader.appendChild(loginLink);
     }
+  });
+});
   
     // Run when page loads
     window.addEventListener("DOMContentLoaded", loadPosts);
