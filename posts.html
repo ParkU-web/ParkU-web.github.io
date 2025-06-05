@@ -61,11 +61,10 @@
         const postDiv = document.createElement("div");
         postDiv.className = "box";
 
-        const mapURL = `https://www.google.com/maps/embed/v1/place?key=Your-api-key&q=${encodeURIComponent(post.address)}`;
         postDiv.innerHTML = `
           <h3>${post.title}</h3>
           <p>${post.content}</p>
-          <small><strong>Address:</strong>${post.address}</small>
+          <p>${post.address}</p>
           <small>${post.timestamp?.toDate().toLocaleString() || "Unknown time"}</small>
         `;
         postsContainer.appendChild(postDiv);
