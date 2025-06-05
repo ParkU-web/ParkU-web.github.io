@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>ParkU</title>
+  <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
@@ -143,51 +144,7 @@
     // Run when page loads
     window.addEventListener("DOMContentLoaded", loadPosts);
   </script>
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-    }
-
-    .logo {
-      height: 24px;
-      width: 50px;
-      margin-left: 0.5rem;
-      vertical-align: middle;
-    }
-
-    .header {
-      background-color: #333;
-      color: white;
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .header .left,
-    .header .right {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .header a {
-      color: white;
-      text-decoration: none;
-    }
-
-    .header a:hover {
-      text-decoration: underline;
-    }
-
-    .box {
-      background-color: #f0f0f0;
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin: 1rem;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-  </style>
+  
 </head>
 <body>
 
