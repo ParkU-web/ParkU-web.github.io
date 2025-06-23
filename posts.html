@@ -65,7 +65,7 @@
         postDiv.innerHTML = `
           <h3>${post.title}</h3>
           <p>${post.content}</p>
-          <p>${post.address}</p>
+          <p><a href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(post.address)}" target="_blank">${post.address}</a></p>
           <small>${post.timestamp?.toDate().toLocaleString() || "Unknown time"}</small>
         `;
         postsContainer.appendChild(postDiv);
@@ -126,7 +126,7 @@
       });
     } else {
       const aboutLink = document.createElement("a");
-      aboutLink.href = "about.html";
+      aboutLink.href = "about.html";<p>${post.address}</p>
       aboutLink.textContent = "About";
       rightHeader.appendChild(aboutLink);
       const contactLink = document.createElement("a");
@@ -167,10 +167,10 @@
 
   <div class="box">
     <h2>New Post</h2>
-    <input type="text" id="post-title" placeholder="Title"><br><br>
-    <textarea id="post-content" placeholder="What's up?" rows="5" cols="40"></textarea><br>
-    <input type="text" id="post-address" placeholder="Address"><br>
-    <button onclick="submitPost()">Submit Post!</button>
+    <input type="text" id="post-title" placeholder="Titel"><br><br>
+    <textarea id="post-content" placeholder="Beschreibung" rows="5" cols="40"></textarea><br>
+    <input type="text" id="post-address" placeholder="Addresse (Format: 123 Straße, Stadt, Staat)"><br>
+    <button onclick="submitPost()">Posten!</button>
   </div>
 
 </body>
