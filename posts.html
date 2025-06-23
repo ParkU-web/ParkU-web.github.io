@@ -27,8 +27,6 @@
   
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-  
-    document.getElementById("post-button").addEventListener("click", submitPost);
 
     // Submitting new posts
     window.submitPost = async () => {
@@ -73,6 +71,7 @@
       });
     };
     document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("post-button").addEventListener("click", submitPost);
   onAuthStateChanged(auth, (user) => {
     const rightHeader = document.querySelector(".header .right");
     if (!rightHeader) return;
