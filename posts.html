@@ -28,6 +28,8 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
   
+    document.getElementById("post-button").addEventListener("click", submitPost);
+
     // Submitting new posts
     window.submitPost = async () => {
       const title = document.getElementById("post-title").value;
@@ -214,7 +216,7 @@
     <input type="text" id="post-title" placeholder="Titel"><br><br>
     <textarea id="post-content" placeholder="Beschreibung" rows="5" cols="40"></textarea><br>
     <input type="text" id="post-address" placeholder="Addresse (Format: 123 Straße, Stadt, Staat)"><br>
-    <button onclick="submitPost()">Posten!</button>
+    <button id="post-button">Posten!</button>
   </div>
 
 </body>
