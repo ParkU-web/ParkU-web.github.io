@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ParkU</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+   <script type="module" src="code.js"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+      }
+
+      .logo {
+        height: 20px;
+        width: 12px;
+        margin-left: 0rem;
+        vertical-align: middle;
+      }
+
+      .header {
+        background-color: #333;
+        color: white;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .header .left,
+      .header .right {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .site-title {
+        color: white;
+        text-decoration:none;
+        font-weight: bold;
+        font-size: 1rem;
+      }
+      .site-title:hover {
+        text-decoration: underline;
+      }
+
+      .header a {
+        color: white;
+        text-decoration: none;
+      }
+
+      .header a:hover {
+        text-decoration: underline;
+      }
+
+      .box {
+        background-color: #f0f0f0;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 600;
+        height: auto;
+        position: absolute;
+        top: 100px;
+        left: 50px;
+      }
+    </style>
+  </head>
+  <body>
+     <div class="header">
+      <div class="left">
+        <a href="index.html"
+          class="site-title">ParkU</a>
+        <img src="clean-logo.png" alt="Logo" class="logo">
+      </div>
+      <div class="right">
+        <a href="index.html">Home</a>
+        <a href="#">About</a>
+        <a href="login.html">Login</a>
+      </div>
+    </div>
+    <div class="box">
+      <h1>Wer wir sind</h1>
+      <p>ParkU ist ein </p>
+    </div>
+  </body>
+</html>
