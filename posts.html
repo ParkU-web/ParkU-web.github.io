@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>ParkU</title>
+  <title>ParkU – Anzeigen</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
@@ -15,7 +15,7 @@
       query,
       orderBy
     } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
-  
+
     const firebaseConfig = {
       apiKey: "AIzaSyBEsgpRXsQNfiywaqxfvchaFhQfhQsf0xs",
       authDomain: "parku-2752f.firebaseapp.com",
@@ -24,38 +24,39 @@
       messagingSenderId: "419232977107",
       appId: "1:419232977107:web:4511a435b169c916394426"
     };
-  
+
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Submitting new posts
+    // Submit new post
     window.submitPost = async () => {
       const title = document.getElementById("post-title").value;
       const content = document.getElementById("post-content").value;
       const address = document.getElementById("post-address").value;
-  
+      const contact = document.getElementById("post-contact").value;
+
       try {
         await addDoc(collection(db, "posts"), {
           title,
           content,
           address,
+          contact,
           timestamp: serverTimestamp()
         });
         alert("Post submitted!");
-        loadPosts(); // Reload posts after new one is added
+        loadPosts();
       } catch (e) {
         console.error("Error adding post:", e);
       }
     };
-  
-    // Load posts and display
+
     async function loadPosts() {
       const postsContainer = document.getElementById("posts-container");
-      postsContainer.innerHTML = ""; // Clear before loading
-  
+      postsContainer.innerHTML = "";
+
       const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
       const querySnapshot = await getDocs(q);
-  
+
       querySnapshot.forEach((doc) => {
         const post = doc.data();
         const postDiv = document.createElement("div");
@@ -64,103 +65,31 @@
         postDiv.innerHTML = `
           <h3>${post.title}</h3>
           <p>${post.content}</p>
-          <p><a href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(post.address)}" target="_blank">${post.address}</a></p>
-          <small>${post.timestamp?.toDate().toLocaleString() || "Unknown time"}</small>
+          <p><strong>Adresse:</strong> <a href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(post.address)}" target="_blank">${post.address}</a></p>
+          <p><strong>Kontakt:</strong> <a href="mailto:${post.contact}">${post.contact}</a></p>
+          <small>${post.timestamp?.toDate().toLocaleString() || "Unbekannte Zeit"}</small>
         `;
         postsContainer.appendChild(postDiv);
       });
-    };
-    document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("post-button").addEventListener("click", submitPost);
-  onAuthStateChanged(auth, (user) => {
-    const rightHeader = document.querySelector(".header .right");
-    if (!rightHeader) return;
-
-    rightHeader.innerHTML = ""; // Clear existing stuff
-
-    if (user) {
-      const userMenu = document.createElement("div");
-      userMenu.className = "user-menu";
-
-      const toggle = document.createElement("span");
-      toggle.className = "user-toggle";
-      toggle.textContent = user.email || "Logged in";
-
-      const dropdown = document.createElement("div");
-      dropdown.className = "user-dropdown";
-
-      const logout = document.createElement("a");
-      logout.href = "#";
-      logout.textContent = "Logout";
-      logout.id = "logout-btn";
-
-      logout.onclick = (e) => {
-        e.preventDefault();
-        signOut(auth).then(() => location.reload());
-      };
-
-      dropdown.appendChild(logout);
-      userMenu.appendChild(toggle);
-      userMenu.appendChild(dropdown);
-      const aboutLink = document.createElement("a");
-      aboutLink.href = "about.html";
-      aboutLink.textContent = "About";
-      rightHeader.appendChild(aboutLink);
-      const contactLink = document.createElement("a");
-      contactLink.href = "contact.html";
-      contactLink.textContent = "Contact";
-      rightHeader.appendChild(contactLink);
-      rightHeader.appendChild(userMenu);
-      
-
-      // Toggle dropdown on click
-      toggle.addEventListener("click", () => {
-        userMenu.classList.toggle("show");
-      });
-
-      // Hide dropdown when clicking outside
-      document.addEventListener("click", (e) => {
-        if (!userMenu.contains(e.target)) {
-          userMenu.classList.remove("show");
-        }
-      });
-    } else {
-      const aboutLink = document.createElement("a");
-      aboutLink.href = "about.html";
-      aboutLink.textContent = "About";
-      rightHeader.appendChild(aboutLink);
-      const contactLink = document.createElement("a");
-      contactLink.href = "contact.html";
-      contactLink.textContent = "Contact";
-      rightHeader.appendChild(contactLink);
-      const loginLink = document.createElement("a");
-      loginLink.href = "login.html";
-      loginLink.textContent = "Login";
-      rightHeader.appendChild(loginLink);
     }
-  });
-});
-  
-    // Run when page loads
-    window.addEventListener("DOMContentLoaded", loadPosts);
+
+    window.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("post-button").addEventListener("click", submitPost);
+      loadPosts();
+    });
   </script>
-   <style>
+
+  <style>
     body {
       margin: 0;
-      font-family: sans-serif;
-    }
-
-    .logo {
-      height: 24px;
-      width: 30px;
-      margin-left: 0.5rem;
-      vertical-align: middle;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
     }
 
     .header {
       background-color: #333;
       color: white;
-      padding: 1rem;
+      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -170,72 +99,101 @@
     .header .right {
       display: flex;
       gap: 1rem;
+      align-items: center;
     }
 
     .header a {
       color: white;
       text-decoration: none;
+      font-weight: bold;
     }
 
     .header a:hover {
       text-decoration: underline;
     }
 
+    .logo {
+      height: 28px;
+      margin-left: 0.5rem;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
     .box {
-      background-color: #f0f0f0;
+      background-color: #fff;
       border-radius: 12px;
       padding: 1.5rem;
-      margin: 1rem;
+      margin-bottom: 1.5rem;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
+    h1, h2, h3 {
+      color: #4CAF50;
+    }
+
     input[type="text"], textarea {
-      width: 100%; /* Fill the box nicely */
-      padding: 0.75rem; /* Some breathing room */
-      margin-bottom: 1rem; /* Spacing between fields */
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
       border: 1px solid #ccc;
       border-radius: 8px;
-      box-sizing: border-box; /* Prevent overflow */
+      box-sizing: border-box;
       font-size: 1rem;
     }
 
     textarea {
-      resize: none; /* Prevent manual resizing */
+      resize: none;
     }
 
-    input[type="text"]:focus, textarea:focus {
-      border-color: #666;
+    input:focus, textarea:focus {
+      border-color: #4CAF50;
       outline: none;
     }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
   </style>
-  
 </head>
 <body>
-
   <div class="header">
     <div class="left">
-      <a href="index.html" class="site-title"><strong>ParkU</strong></a>
+      <a href="index.html"><strong>ParkU</strong></a>
       <img src="clean-logo.png" alt="Logo" class="logo">
     </div>
     <div class="right">
-      <a href="#">About</a>
-      <a href="contact.html">Contact</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Kontakt</a>
       <a href="login.html">Login</a>
     </div>
   </div>
 
-  <div style="padding: 2rem;">
-    <h1>Recent posts:</h1>
+  <div class="container">
+    <h1>Neueste Parkangebote</h1>
     <div id="posts-container"></div>
-  </div>
 
-  <div class="box">
-    <h2>New Post</h2>
-    <input type="text" id="post-title" placeholder="Titel"><br><br>
-    <textarea id="text" placeholder="Beschreibung" rows="5"></textarea><br>
-    <input type="text" id="post-address" placeholder="Addresse (Format: 123 Straße, Stadt, Staat)"><br>
-    <button id="post-button">Posten!</button>
+    <div class="box">
+      <h2>Neuen Parkplatz eintragen</h2>
+      <input type="text" id="post-title" placeholder="Titel des Angebots">
+      <textarea id="post-content" placeholder="Beschreibung" rows="5"></textarea>
+      <input type="text" id="post-address" placeholder="Adresse (z. B. Musterstraße 1, München)">
+      <input type="text" id="post-contact" placeholder="Kontakt-E-Mail oder Telefonnummer">
+      <button id="post-button">Veröffentlichen</button>
+    </div>
   </div>
-
 </body>
 </html>
