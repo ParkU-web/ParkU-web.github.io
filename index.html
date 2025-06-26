@@ -111,9 +111,77 @@ document.addEventListener("DOMContentLoaded", () => {
     </script>
     <style>
       body {
-        margin: 0;
-        font-family: sans-serif;
-      }
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    .hero {
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      padding: 80px 20px;
+    }
+    .hero h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+    }
+    .hero p {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+    .hero a {
+      background: white;
+      color: #4CAF50;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    .hero a:hover {
+      background: #e0e0e0;
+    }
+
+    .section {
+      padding: 60px 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .section h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .how-it-works {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      text-align: center;
+    }
+    .how-it-works div {
+      flex: 1 1 250px;
+    }
+    .how-it-works img {
+      width: 60px;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      background: #333;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+    }
+    footer a {
+      color: #9ee8a2;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
 
       .logo {
         height: 20px;
@@ -211,14 +279,49 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     </div>
 
-    <div style="padding: 2rem;">
-      <h1>Oi mate I ate chez</h1>
-      <p>So like this one time, fully sick mate, I created a website, but it looked like total garboleum....</p>
-      <section class="black-section">
-        <h2 style="color: white;">How it works</h2>
-        <p style="color: white;">List your spot, find a spot. Easy as pie.</p>
-      </section>
+    <!-- Hero Section -->
+  <section class="hero">
+    <h1>ParkU</h1>
+    <p>Teile deinen Parkplatz. Finde freie Stellplätze. Ganz einfach.</p>
+    <a href="#about">Mehr erfahren</a>
+  </section>
+
+  <!-- Über uns -->
+  <section class="section" id="about">
+    <h2>Über uns</h2>
+    <p>
+      Wir sind eine Gruppe von Schülern aus Bayern, die im Rahmen eines Schulprojekts die Plattform ParkU entwickelt haben. Unsere Vision: Eine faire, einfache Möglichkeit für alle, freie Parkplätze zu teilen – ob in der Stadt oder auf dem Land.
+    </p>
+  </section>
+
+  <!-- Wie es funktioniert -->
+  <section class="section" id="how-it-works">
+    <h2>So funktioniert’s</h2>
+    <div class="how-it-works">
+      <div>
+        <img src="upload-icon.svg" alt="Hochladen" />
+        <h3>1. Parkplatz hochladen</h3>
+        <p>Registriere dich und stelle deinen Stellplatz anderen zur Verfügung.</p>
+      </div>
+      <div>
+        <img src="search-icon.svg" alt="Suchen" />
+        <h3>2. Parkplatz finden</h3>
+        <p>Suche gezielt nach Parkplätzen in deiner Nähe.</p>
+      </div>
+      <div>
+        <img src="calendar-icon.svg" alt="Buchen" />
+        <h3>3. Buchen & Parken</h3>
+        <p>Buchen, losfahren, einparken. So einfach geht’s!</p>
+      </div>
     </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 ParkU – Schülerprojekt am Gymnasium</p>
+    <a href="#">Impressum</a> |
+    <a href="#">Datenschutz</a>
+  </footer>
     
   </body>
 </html>
