@@ -6,21 +6,23 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      getDocs,
-      serverTimestamp,
-      query,
-      orderBy,
-      getAuth,
-      signInWithEmailAndPassword,
-      GoogleAuthProvider,
-      signInWithPopup,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  serverTimestamp,
+  query,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBEsgpRXsQNfiywaqxfvchaFhQfhQsf0xs",
@@ -304,19 +306,6 @@ document.addEventListener("DOMContentLoaded", () => {
   </style>
 </head>
 <body>
- <div class="header">
-      <div class="left">
-        <strong>ParkU</strong>
-        <img src="clean-logo.png" alt="Logo" class="logo">
-      </div>
-      <div class="right">
-        <div class="user-menu">
-          <span class="user-toggle">user@example.com</span>
-          <div class="user-dropdown hidden">
-          <a href="#" id="logout-btn">Logout</a></div>
-        </div>
-      </div>
-    </div>
 
   <div class="container">
 
