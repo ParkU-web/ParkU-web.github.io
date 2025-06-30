@@ -36,6 +36,51 @@
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
+    // Submit new post
+    window.submitPost = async () => {
+      const title = document.getElementById("post-title").value;
+      const content = document.getElementById("post-content").value;
+      const address = document.getElementById("post-address").value;
+      const contact = document.getElementById("post-contact").value;
+
+      try {
+        await addDoc(collection(db, "posts"), {
+          title,
+          content,
+          address,
+          contact,
+          timestamp: serverTimestamp()
+        });
+        alert("Post submitted!");
+        loadPosts();
+      } catch (e) {
+        console.error("Error adding post:", e);
+      }
+    };
+
+    async function loadPosts() {
+      const postsContainer = document.getElementById("posts-container");
+      postsContainer.innerHTML = "";
+
+      const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach((doc) => {
+        const post = doc.data();
+        const postDiv = document.createElement("div");
+        postDiv.className = "box";
+
+        postDiv.innerHTML = `
+          <h3>${post.title}</h3>
+          <p>${post.content}</p>
+          <p><strong>Adresse:</strong> <a href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(post.address)}" target="_blank">${post.address}</a></p>
+          <p><strong>Kontakt:</strong> <a href="mailto:${post.contact}">${post.contact}</a></p>
+          <small>${post.timestamp?.toDate().toLocaleString() || "Unbekannte Zeit"}</small>
+        `;
+        postsContainer.appendChild(postDiv);
+      });
+    }
+
     window.loginUser = async () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -49,6 +94,8 @@
   };
 
 document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("post-button").addEventListener("click", submitPost);
+  loadPosts();
   onAuthStateChanged(auth, (user) => {
     const rightHeader = document.querySelector(".header .right");
     if (!rightHeader) return;
@@ -116,56 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
-    // Submit new post
-    window.submitPost = async () => {
-      const title = document.getElementById("post-title").value;
-      const content = document.getElementById("post-content").value;
-      const address = document.getElementById("post-address").value;
-      const contact = document.getElementById("post-contact").value;
-
-      try {
-        await addDoc(collection(db, "posts"), {
-          title,
-          content,
-          address,
-          contact,
-          timestamp: serverTimestamp()
-        });
-        alert("Post submitted!");
-        loadPosts();
-      } catch (e) {
-        console.error("Error adding post:", e);
-      }
-    };
-
-    async function loadPosts() {
-      const postsContainer = document.getElementById("posts-container");
-      postsContainer.innerHTML = "";
-
-      const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
-      const querySnapshot = await getDocs(q);
-
-      querySnapshot.forEach((doc) => {
-        const post = doc.data();
-        const postDiv = document.createElement("div");
-        postDiv.className = "box";
-
-        postDiv.innerHTML = `
-          <h3>${post.title}</h3>
-          <p>${post.content}</p>
-          <p><strong>Adresse:</strong> <a href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(post.address)}" target="_blank">${post.address}</a></p>
-          <p><strong>Kontakt:</strong> <a href="mailto:${post.contact}">${post.contact}</a></p>
-          <small>${post.timestamp?.toDate().toLocaleString() || "Unbekannte Zeit"}</small>
-        `;
-        postsContainer.appendChild(postDiv);
-      });
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("post-button").addEventListener("click", submitPost);
-      loadPosts();
-    });
   </script>
 
   <style>
